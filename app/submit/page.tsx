@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 // Replace with your Google Form embed URL from Google Forms → Send → <> (embed
 // HTML) — it looks like https://docs.google.com/forms/d/e/…/viewform?embedded=true
-const GOOGLE_FORM_EMBED_URL = 'GOOGLE_FORM_URL_PLACEHOLDER';
+const GOOGLE_FORM_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScFbuoRkc68N6ICUHnMNth6PVVbMJe66LZVnsHlR7qkvWpnrQ/viewform?embedded=true';
 
 export default function SubmitPage() {
   const formConfigured = GOOGLE_FORM_EMBED_URL.startsWith('https://');
@@ -34,7 +34,7 @@ export default function SubmitPage() {
         ) : (
           <div className="rounded-lg border border-dashed border-line-strong bg-bg-card p-8 text-center">
             <p className="text-sm text-ink-muted">
-              The submission form isn’t wired up yet.
+              The submission form isn't wired up yet.
             </p>
             <p className="mt-2 text-[13px] text-ink-faint">
               Create a Google Form, then paste its embed URL into{' '}
