@@ -34,7 +34,7 @@ export default function SubmitPage() {
         ) : (
           <div className="rounded-lg border border-dashed border-line-strong bg-bg-card p-8 text-center">
             <p className="text-sm text-ink-muted">
-              The submission form isn't wired up yet.
+              The submission form is not wired up yet.
             </p>
             <p className="mt-2 text-[13px] text-ink-faint">
               Create a Google Form, then paste its embed URL into{' '}
