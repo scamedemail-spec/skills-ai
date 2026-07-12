@@ -6,7 +6,10 @@ import type { FileNode, SkillManifestEntry, SkillSummary } from '@/lib/types';
 import { copyText, installCommand } from '@/lib/install';
 import FileTree from './FileTree';
 import FileViewer from './FileViewer';
+import CommunityPanel from './CommunityPanel';
 import { CloseIcon, DownloadArrowIcon, VerifiedIcon } from './icons';
+
+type ModalView = 'preview' | 'reviews';
 
 interface PreviewModalProps {
   skill: SkillSummary;
@@ -29,9 +32,17 @@ export default function PreviewModal({
   onClose,
 }: PreviewModalProps) {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
+  const [view, setView] = useState<ModalView>('preview');
   const [copied, setCopied] = useState(false);
+  const [downloadNonce, setDownloadNonce] = useState(0);
   const panelRef = useRef<HTMLDivElement>(null);
   const copyTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  // Wrap the download so the reviews panel can refresh eligibility afterward.
+  const handleDownload = useCallback(() => {
+    onDownload();
+    setDownloadNonce((n) => n + 1);
+  }, [onDownload]);
 
   const files = useMemo(() => (entry ? flattenFiles(entry.fileTree) : []), [entry]);
 
@@ -111,7 +122,7 @@ export default function PreviewModal({
               <DownloadArrowIcon />
               {count.toLocaleString('en-US')}
             </span>
-            <button type="button" className="btn btn-primary" onClick={onDownload}>
+            <button type="button" className="btn btn-primary" onClick={handleDownload}>
               Download
             </button>
             <button
@@ -132,32 +143,78 @@ export default function PreviewModal({
           </div>
         </header>
 
-        <div className="flex min-h-0 flex-1 flex-col md:flex-row">
-          <aside className="pane-scroll max-h-44 shrink-0 overflow-y-auto border-b border-line bg-bg-sidebar md:max-h-none md:w-[30%] md:border-b-0 md:border-r">
-            {entry ? (
-              <FileTree
-                nodes={entry.fileTree}
-                selectedPath={selectedPath}
-                onSelect={setSelectedPath}
-              />
-            ) : (
-              <p className="p-4 text-[13px] text-ink-muted">Loading files…</p>
-            )}
-          </aside>
-          <section className="pane-scroll min-h-0 flex-1 overflow-y-auto bg-bg-card p-5">
-            {entry ? (
-              selectedFile ? (
-                <FileViewer file={selectedFile} />
-              ) : (
-                <p className="text-ink-muted">Select a file to preview.</p>
-              )
-            ) : (
-              <p className="text-ink-muted">Loading preview…</p>
-            )}
-          </section>
+        {/* View tabs */}
+        <div className="flex shrink-0 gap-1 border-b border-line bg-bg-sidebar px-4">
+          <TabButton active={view === 'preview'} onClick={() => setView('preview')}>
+            Files
+          </TabButton>
+          <TabButton active={view === 'reviews'} onClick={() => setView('reviews')}>
+            Reviews
+          </TabButton>
         </div>
+
+        {view === 'preview' ? (
+          <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+            <aside className="pane-scroll max-h-44 shrink-0 overflow-y-auto border-b border-line bg-bg-sidebar md:max-h-none md:w-[30%] md:border-b-0 md:border-r">
+              {entry ? (
+                <FileTree
+                  nodes={entry.fileTree}
+                  selectedPath={selectedPath}
+                  onSelect={setSelectedPath}
+                />
+              ) : (
+                <p className="p-4 text-[13px] text-ink-muted">Loading files…</p>
+              )}
+            </aside>
+            <section className="pane-scroll min-h-0 flex-1 overflow-y-auto bg-bg-card p-5">
+              {entry ? (
+                selectedFile ? (
+                  <FileViewer file={selectedFile} />
+                ) : (
+                  <p className="text-ink-muted">Select a file to preview.</p>
+                )
+              ) : (
+                <p className="text-ink-muted">Loading preview…</p>
+              )}
+            </section>
+          </div>
+        ) : (
+          <section className="pane-scroll min-h-0 flex-1 overflow-y-auto bg-bg-card p-5">
+            <CommunityPanel
+              slug={skill.slug}
+              downloadNonce={downloadNonce}
+              onDownload={handleDownload}
+            />
+          </section>
+        )}
       </div>
     </div>,
     document.body,
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-selected={active}
+      role="tab"
+      className={`-mb-px border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors duration-150 ${
+        active
+          ? 'border-accent text-ink'
+          : 'border-transparent text-ink-muted hover:text-ink'
+      }`}
+    >
+      {children}
+    </button>
   );
 }

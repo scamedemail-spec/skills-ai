@@ -6,22 +6,29 @@ import type { SkillManifestEntry, SkillSummary } from '@/lib/types';
 import PreviewModal from './PreviewModal';
 import SkillCard from './SkillCard';
 import { SearchIcon } from './icons';
+import { getVoterId, markDownloaded } from '@/lib/voter';
 
 export default function Library({ skills }: { skills: SkillSummary[] }) {
   const [query, setQuery] = useState('');
   const [counts, setCounts] = useState<Record<string, number>>({});
+  const [scores, setScores] = useState<Record<string, number>>({});
+  const [ratings, setRatings] = useState<Record<string, { avg: number; count: number } | null>>({});
   const [bumps, setBumps] = useState<Record<string, number>>({});
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [manifest, setManifest] = useState<Record<string, SkillManifestEntry> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // One batched request for every card's download count (a single Redis MGET
-  // server-side, edge-cached — keeps the free tier far under its daily quota).
+  // One batched request for every card's download count and net vote score
+  // (a few Redis MGETs server-side, edge-cached — far under the free quota).
   useEffect(() => {
-    fetch('/api/stats/counts')
+    // Bypass the browser cache so cards reflect current data on every load; the
+    // CDN still absorbs load via the endpoint's s-maxage header.
+    fetch('/api/stats/counts', { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.counts) setCounts(d.counts);
+        if (d?.scores) setScores(d.scores);
+        if (d?.ratings) setRatings(d.ratings);
       })
       .catch(() => {
         /* counts are decorative */
@@ -51,8 +58,21 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
     [skills],
   );
 
+  const countFor = useCallback(
+    (slug: string) => (counts[slug] ?? 0) + (bumps[slug] ?? 0),
+    [counts, bumps],
+  );
+
+  // Most-downloaded first when browsing; a search query switches to Fuse's
+  // relevance order instead, since that's more useful once you're looking
+  // for something specific.
+  const byPopularity = useMemo(
+    () => [...skills].sort((a, b) => countFor(b.slug) - countFor(a.slug)),
+    [skills, countFor],
+  );
+
   const trimmed = query.trim();
-  const visible = trimmed ? fuse.search(trimmed).map((r) => r.item) : skills;
+  const visible = trimmed ? fuse.search(trimmed).map((r) => r.item) : byPopularity;
 
   // The full manifest (file trees + contents) is fetched once, lazily, the
   // first time any preview opens — it never blocks initial page load.
@@ -70,16 +90,17 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
 
   const download = useCallback((slug: string) => {
     // Hidden anchor → follows the 302 to the zip; Content-Disposition makes
-    // the browser download in place instead of navigating.
+    // the browser download in place instead of navigating. The voter id lets
+    // the server mark this browser as a verified downloader (review eligibility).
+    const vid = getVoterId();
     const a = document.createElement('a');
-    a.href = `/api/skills/${slug}/download?src=web`;
+    a.href = `/api/skills/${slug}/download?src=web&vid=${encodeURIComponent(vid)}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
+    markDownloaded(slug);
     setBumps((b) => ({ ...b, [slug]: (b[slug] ?? 0) + 1 }));
   }, []);
-
-  const countFor = (slug: string) => (counts[slug] ?? 0) + (bumps[slug] ?? 0);
 
   const openSkill = openSlug ? skills.find((s) => s.slug === openSlug) ?? null : null;
 
@@ -111,6 +132,8 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
                 key={skill.slug}
                 skill={skill}
                 count={countFor(skill.slug)}
+                score={scores[skill.slug] ?? 0}
+                rating={ratings[skill.slug] ?? null}
                 onOpen={() => {
                   setOpenSlug(skill.slug);
                   loadManifest();
@@ -128,6 +151,7 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
 
       {openSkill && (
         <PreviewModal
+          key={openSkill.slug}
           skill={openSkill}
           entry={manifest?.[openSkill.slug] ?? null}
           count={countFor(openSkill.slug)}

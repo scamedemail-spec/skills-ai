@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRedis } from '@/lib/redis';
 import { getDownloadLimiter, ipFromHeaders, isBotUserAgent } from '@/lib/ratelimit';
+import { eligibilityWrite, isValidVoterId } from '@/lib/community';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,9 @@ export async function GET(
   const src = sanitizeSrc(req.nextUrl.searchParams.get('src'));
   const ua = req.headers.get('user-agent');
   const referer = req.headers.get('referer') ?? '';
+  // Only web downloads carry a voter id; a real download grants review eligibility.
+  const vidParam = req.nextUrl.searchParams.get('vid');
+  const voterId = isValidVoterId(vidParam) ? vidParam : null;
 
   const redis = getRedis();
   if (redis && !isBotUserAgent(ua)) {
@@ -46,6 +50,7 @@ export async function GET(
         JSON.stringify({ ts: Date.now(), src, ua, referer }),
       );
       pipeline.ltrim(`events:${slug}`, 0, 999);
+      if (voterId) eligibilityWrite(pipeline, slug, voterId);
       await pipeline.exec();
     }
   }

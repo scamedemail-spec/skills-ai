@@ -116,6 +116,62 @@ export function FileIcon({ className = 'h-4 w-4' }: IconProps) {
   );
 }
 
+export function UpvoteIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 3.5 3.5 8.5h2.6v4h3.8v-4h2.6L8 3.5Z" />
+    </svg>
+  );
+}
+
+export function DownvoteIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 12.5 12.5 7.5h-2.6v-4H6.1v4H3.5L8 12.5Z" />
+    </svg>
+  );
+}
+
+interface StarIconProps extends IconProps {
+  /** Solid fill for an earned/selected star; stroke-only outline otherwise. */
+  filled?: boolean;
+}
+
+export function StarIcon({ className = 'h-4 w-4', filled = false }: StarIconProps) {
+  const path = 'M8 1.6l1.98 4.28 4.62.55-3.42 3.24.9 4.63L8 12.1l-4.08 2.2.9-4.63L1.4 6.43l4.62-.55L8 1.6Z';
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 16 16"
+      fill={filled ? 'currentColor' : 'none'}
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={path} />
+    </svg>
+  );
+}
+
 export function CloseIcon({ className = 'h-4 w-4' }: IconProps) {
   return (
     <svg

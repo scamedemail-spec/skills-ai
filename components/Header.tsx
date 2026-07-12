@@ -25,7 +25,9 @@ export default function Header() {
             Submit
           </Link>
           <a
-            href="#"
+            href="https://www.instagram.com/superskills.ai/?hl=en"
+            target="_blank"
+            rel="noreferrer"
             aria-label="skills.ai on Instagram"
             className="text-ink-muted transition-colors duration-150 hover:text-ink"
           >

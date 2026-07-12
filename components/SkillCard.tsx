@@ -3,16 +3,25 @@
 import { useEffect, useRef, useState } from 'react';
 import type { SkillSummary } from '@/lib/types';
 import { copyText, installCommand } from '@/lib/install';
-import { DownloadArrowIcon, VerifiedIcon } from './icons';
+import { DownloadArrowIcon, DownvoteIcon, StarIcon, UpvoteIcon, VerifiedIcon } from './icons';
 
 interface SkillCardProps {
   skill: SkillSummary;
   count: number;
+  score: number;
+  rating: { avg: number; count: number } | null;
   onOpen: () => void;
   onDownload: () => void;
 }
 
-export default function SkillCard({ skill, count, onOpen, onDownload }: SkillCardProps) {
+export default function SkillCard({
+  skill,
+  count,
+  score,
+  rating,
+  onOpen,
+  onDownload,
+}: SkillCardProps) {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -58,13 +67,38 @@ export default function SkillCard({ skill, count, onOpen, onDownload }: SkillCar
       </p>
 
       <div className="mt-4 flex items-center justify-between">
-        <span
-          className="flex items-center gap-1 text-[13px] text-ink-muted tabular-nums"
-          title={`${count.toLocaleString('en-US')} downloads`}
-        >
-          <DownloadArrowIcon />
-          {count.toLocaleString('en-US')}
-        </span>
+        <div className="flex items-center gap-3">
+          <span
+            className="flex items-center gap-1 text-[13px] text-ink-muted tabular-nums"
+            title={`${count.toLocaleString('en-US')} downloads`}
+          >
+            <DownloadArrowIcon />
+            {count.toLocaleString('en-US')}
+          </span>
+          {score !== 0 && (
+            <span
+              className="flex items-center gap-1 text-[13px] text-ink-muted tabular-nums"
+              title={`Net score ${score > 0 ? '+' : ''}${score}`}
+            >
+              {score > 0 ? (
+                <UpvoteIcon className="h-3.5 w-3.5" />
+              ) : (
+                <DownvoteIcon className="h-3.5 w-3.5" />
+              )}
+              {Math.abs(score)}
+            </span>
+          )}
+          {rating && (
+            <span
+              className="flex items-center gap-1 text-[13px] text-ink-muted tabular-nums"
+              title={`${rating.avg.toFixed(1)} average rating (${rating.count})`}
+            >
+              <StarIcon className="h-3.5 w-3.5" filled />
+              {rating.avg.toFixed(1)}
+              <span className="text-ink-faint">({rating.count})</span>
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-2">
           <button
             type="button"

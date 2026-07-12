@@ -8,7 +8,7 @@ export default function Hero() {
   useEffect(() => {
     let alive = true;
     const load = () => {
-      fetch('/api/stats/total')
+      fetch('/api/stats/total', { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
         .then((d) => {
           if (alive && d && typeof d.total === 'number') setTotal(d.total);

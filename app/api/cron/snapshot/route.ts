@@ -33,12 +33,20 @@ export async function GET(req: NextRequest) {
   }
 
   const sitewideTotal = (await redis.get<number>('downloads:total')) ?? 0;
+  const waitlistEntries = await redis.lrange<string>('waitlist:entries', 0, -1);
   const date = new Date().toISOString().slice(0, 10);
 
   await redis.set(
     `snapshots:${date}`,
-    JSON.stringify({ date, sitewideTotal, totals, capturedAt: new Date().toISOString() }),
+    JSON.stringify({
+      date,
+      sitewideTotal,
+      totals,
+      waitlistEntries,
+      waitlistCount: waitlistEntries.length,
+      capturedAt: new Date().toISOString(),
+    }),
   );
 
-  return NextResponse.json({ ok: true, date, skills: keys.length });
+  return NextResponse.json({ ok: true, date, skills: keys.length, waitlistEntries: waitlistEntries.length });
 }
