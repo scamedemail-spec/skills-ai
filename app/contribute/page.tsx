@@ -4,13 +4,13 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 export const metadata = {
-  title: 'Terms of Service — Skills.ai',
-  description: 'Rules for using Skills.ai and downloading Claude-compatible skills.',
+  title: 'Contributor Terms — Skills.ai',
+  description: 'Terms for submitting a skill to Skills.ai.',
 };
 
-export default async function TermsPage() {
+export default async function ContributePage() {
   const source = await fs.readFile(
-    path.join(process.cwd(), 'content/legal/terms.md'),
+    path.join(process.cwd(), 'content/legal/contributor-terms.md'),
     'utf8',
   );
   return (

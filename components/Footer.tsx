@@ -13,6 +13,9 @@ export default function Footer() {
             <a href="/terms" className="transition-colors duration-150 hover:text-ink">
               Terms
             </a>
+            <a href="/contribute" className="transition-colors duration-150 hover:text-ink">
+              Contribute
+            </a>
             <a
               href="https://www.instagram.com/superskills.ai/?hl=en"
               target="_blank"
