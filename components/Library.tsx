@@ -102,6 +102,23 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
     setBumps((b) => ({ ...b, [slug]: (b[slug] ?? 0) + 1 }));
   }, []);
 
+  const recordCopyInstall = useCallback((slug: string) => {
+    // "Copy install" is a legitimate way to get the skill (the user runs the
+    // copied curl command themselves later), so it counts the same as a
+    // browser download and grants the same review eligibility — just without
+    // triggering an in-browser file save. `redirect: 'manual'` stops fetch
+    // from following the 302 and pulling the zip bytes; all the counting/
+    // eligibility side effects already ran server-side before that redirect.
+    const vid = getVoterId();
+    fetch(`/api/skills/${slug}/download?src=cli&vid=${encodeURIComponent(vid)}`, {
+      redirect: 'manual',
+    }).catch(() => {
+      /* best-effort — the copy itself already succeeded regardless */
+    });
+    markDownloaded(slug);
+    setBumps((b) => ({ ...b, [slug]: (b[slug] ?? 0) + 1 }));
+  }, []);
+
   const openSkill = openSlug ? skills.find((s) => s.slug === openSlug) ?? null : null;
 
   return (
@@ -139,6 +156,7 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
                   loadManifest();
                 }}
                 onDownload={() => download(skill.slug)}
+                onCopyInstall={() => recordCopyInstall(skill.slug)}
               />
             ))}
           </div>
@@ -156,6 +174,7 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
           entry={manifest?.[openSkill.slug] ?? null}
           count={countFor(openSkill.slug)}
           onDownload={() => download(openSkill.slug)}
+          onCopyInstall={() => recordCopyInstall(openSkill.slug)}
           onClose={() => setOpenSlug(null)}
         />
       )}

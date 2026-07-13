@@ -12,6 +12,7 @@ interface SkillCardProps {
   rating: { avg: number; count: number } | null;
   onOpen: () => void;
   onDownload: () => void;
+  onCopyInstall: () => void;
 }
 
 export default function SkillCard({
@@ -21,6 +22,7 @@ export default function SkillCard({
   rating,
   onOpen,
   onDownload,
+  onCopyInstall,
 }: SkillCardProps) {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -32,6 +34,7 @@ export default function SkillCard({
     const ok = await copyText(installCommand(skill.slug));
     if (ok) {
       setCopied(true);
+      onCopyInstall();
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => setCopied(false), 2000);
     }

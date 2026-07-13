@@ -17,6 +17,7 @@ interface PreviewModalProps {
   entry: SkillManifestEntry | null;
   count: number;
   onDownload: () => void;
+  onCopyInstall: () => void;
   onClose: () => void;
 }
 
@@ -29,6 +30,7 @@ export default function PreviewModal({
   entry,
   count,
   onDownload,
+  onCopyInstall,
   onClose,
 }: PreviewModalProps) {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
@@ -79,10 +81,12 @@ export default function PreviewModal({
     const ok = await copyText(installCommand(skill.slug));
     if (ok) {
       setCopied(true);
+      onCopyInstall();
+      setDownloadNonce((n) => n + 1); // refresh review eligibility, same as a real download
       clearTimeout(copyTimer.current);
       copyTimer.current = setTimeout(() => setCopied(false), 2000);
     }
-  }, [skill.slug]);
+  }, [skill.slug, onCopyInstall]);
 
   return createPortal(
     <div
