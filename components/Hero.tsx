@@ -39,7 +39,7 @@ export default function Hero() {
           <div className="font-serif text-[56px] leading-none text-accent tabular-nums">
             {(total ?? 0).toLocaleString('en-US')}
           </div>
-          <div className="mt-2 text-[13px] text-ink-muted">skills installed</div>
+          <div className="mt-2 text-[13px] text-ink-muted">Total Skills Downloaded</div>
         </div>
       </div>
     </section>

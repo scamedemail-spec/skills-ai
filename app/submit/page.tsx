@@ -1,20 +1,16 @@
 import type { Metadata } from 'next';
-import SubmitFormGate from '@/components/SubmitFormGate';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Submit a skill — skills.ai',
   description: 'Submit a Claude skill to the skills.ai library.',
 };
 
-// Replace with your Google Form embed URL from Google Forms → Send → <> (embed
-// HTML) — it looks like https://docs.google.com/forms/d/e/…/viewform?embedded=true
-const GOOGLE_FORM_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScFbuoRkc68N6ICUHnMNth6PVVbMJe66LZVnsHlR7qkvWpnrQ/viewform?embedded=true';
+const SUBMIT_FORM_URL = 'https://forms.gle/iPJmc3JC1MbMk3zw7';
 
 export default function SubmitPage() {
-  const formConfigured = GOOGLE_FORM_EMBED_URL.startsWith('https://');
-
   return (
-    <div className="mx-auto max-w-[480px] px-6 pb-24 pt-12 md:pt-20">
+    <div className="mx-auto max-w-[480px] px-6 pb-24 pt-12 md:pt-20 text-center">
       <h1 className="font-serif text-[32px] font-medium leading-tight tracking-[-0.02em]">
         Submit a skill
       </h1>
@@ -23,22 +19,22 @@ export default function SubmitPage() {
         library within a week.
       </p>
 
-      <div className="mt-8">
-        {formConfigured ? (
-          <SubmitFormGate url={GOOGLE_FORM_EMBED_URL} />
-        ) : (
-          <div className="rounded-lg border border-dashed border-line-strong bg-bg-card p-8 text-center">
-            <p className="text-sm text-ink-muted">
-              The submission form is not wired up yet.
-            </p>
-            <p className="mt-2 text-[13px] text-ink-faint">
-              Create a Google Form, then paste its embed URL into{' '}
-              <code className="font-mono text-xs">app/submit/page.tsx</code>{' '}
-              (Google Forms → Send → embed HTML).
-            </p>
-          </div>
-        )}
-      </div>
+      <a
+        href={SUBMIT_FORM_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="btn btn-primary mt-8 inline-flex"
+      >
+        Submit a skill
+      </a>
+
+      <p className="mt-4 text-[13px] text-ink-faint">
+        Opens in a new tab. By submitting, you agree to our{' '}
+        <Link href="/contribute" className="text-accent underline hover:text-accent-hover">
+          Contributor Terms
+        </Link>
+        .
+      </p>
     </div>
   );
 }
