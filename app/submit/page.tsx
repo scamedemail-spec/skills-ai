@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import SubmitFormGate from '@/components/SubmitFormGate';
 
 export const metadata: Metadata = {
   title: 'Submit a skill — skills.ai',
@@ -24,13 +25,7 @@ export default function SubmitPage() {
 
       <div className="mt-8">
         {formConfigured ? (
-          <iframe
-            src={GOOGLE_FORM_EMBED_URL}
-            title="Skill submission form"
-            className="h-[1000px] w-full rounded-lg border border-line bg-bg-card"
-          >
-            Loading…
-          </iframe>
+          <SubmitFormGate url={GOOGLE_FORM_EMBED_URL} />
         ) : (
           <div className="rounded-lg border border-dashed border-line-strong bg-bg-card p-8 text-center">
             <p className="text-sm text-ink-muted">
