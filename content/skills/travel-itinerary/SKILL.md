@@ -1,7 +1,7 @@
 ---
 name: "Travel Itinerary"
 description: "Builds a day-by-day travel itinerary from a destination, trip length, and stated interests."
-author: "Amara Osei"
+author: "Curated"
 verified: false
 ---
 

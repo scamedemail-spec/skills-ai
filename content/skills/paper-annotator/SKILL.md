@@ -1,7 +1,7 @@
 ---
 name: "Paper Annotator"
 description: "Adds margin-style annotations to an academic paper, flagging assumptions and key claims."
-author: "Maya Chen"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Textbook Summarizer"
 description: "Summarizes a textbook chapter into key concepts, definitions, and a study checklist."
-author: "Elena Popov"
+author: "Curated"
 verified: false
 ---
 

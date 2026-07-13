@@ -1,7 +1,7 @@
 ---
 name: "Tax Prep Helper"
 description: "Organizes income and deduction documents into a checklist before filing, flagging likely missing items."
-author: "Devon Marsh"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Grocery List Builder"
 description: "Consolidates a week of planned meals into a single grocery list grouped by store section."
-author: "Noah Kim"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Recipe Scaler"
 description: "Scales a recipe up or down to a target serving count, adjusting cook times where relevant."
-author: "Lucia Moretti"
+author: "Curated"
 verified: false
 ---
 

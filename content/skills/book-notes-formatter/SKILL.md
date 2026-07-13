@@ -1,7 +1,7 @@
 ---
 name: "Book Notes Formatter"
 description: "Turns rough reading notes into a structured book summary with key takeaways."
-author: "Priya Nair"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Macro Calculator"
 description: "Calculates daily calorie and macronutrient targets from body stats and a stated goal."
-author: "Tariq Hassan"
+author: "Curated"
 verified: false
 ---
 

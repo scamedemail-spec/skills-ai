@@ -1,7 +1,7 @@
 ---
 name: "Roommate Agreement Drafter"
 description: "Drafts a plain-language roommate agreement covering rent split, chores, and shared expenses."
-author: "Chloe Bennett"
+author: "Curated"
 verified: false
 ---
 

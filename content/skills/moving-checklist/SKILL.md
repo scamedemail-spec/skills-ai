@@ -1,7 +1,7 @@
 ---
 name: "Moving Checklist"
 description: "Builds a personalized moving timeline from move-out date back through packing and address changes."
-author: "Ravi Patel"
+author: "Curated"
 verified: false
 ---
 

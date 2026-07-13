@@ -1,7 +1,7 @@
 ---
 name: "Gym Workout Planner"
 description: "Builds a weekly workout split from stated goals, available equipment, and time constraints."
-author: "Jenna Cole"
+author: "Curated"
 verified: false
 ---
 

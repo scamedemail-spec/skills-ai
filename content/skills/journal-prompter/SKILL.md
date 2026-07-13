@@ -1,7 +1,7 @@
 ---
 name: "Journal Prompter"
 description: "Offers a daily journaling prompt tailored to mood or recent context, and follows up on prior entries."
-author: "Sofia Reyes"
+author: "Curated"
 verified: false
 ---
 

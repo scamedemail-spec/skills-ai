@@ -1,7 +1,7 @@
 ---
 name: "Apartment Listing Parser"
 description: "Extracts structured facts (rent, deposit, utilities, lease length) from a wall-of-text apartment listing."
-author: "Yuki Tanaka"
+author: "Curated"
 verified: false
 ---
 

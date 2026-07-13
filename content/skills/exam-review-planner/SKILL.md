@@ -1,7 +1,7 @@
 ---
 name: "Exam Review Planner"
 description: "Builds a day-by-day study plan from an exam date and a list of topics, weighted by difficulty."
-author: "Grace Lindqvist"
+author: "Curated"
 verified: false
 ---
 

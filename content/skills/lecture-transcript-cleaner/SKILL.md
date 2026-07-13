@@ -1,7 +1,7 @@
 ---
 name: "Lecture Transcript Cleaner"
 description: "Cleans up an auto-generated lecture transcript into readable notes with headings by topic."
-author: "Sam Okafor"
+author: "Curated"
 verified: false
 ---
 

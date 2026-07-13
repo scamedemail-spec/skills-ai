@@ -1,7 +1,7 @@
 ---
 name: "Weekly Review Prompt"
 description: "Guides a structured weekly review with prompts covering wins, misses, and next week's priorities."
-author: "Owen Blake"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Habit Tracker Analyst"
 description: "Analyzes exported habit-tracking data to find streaks, drop-off patterns, and correlations."
-author: "Marcus Webb"
+author: "Curated"
 verified: false
 ---
 

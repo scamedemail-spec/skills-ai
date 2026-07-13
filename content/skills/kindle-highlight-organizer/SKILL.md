@@ -1,7 +1,7 @@
 ---
 name: "Kindle Highlight Organizer"
 description: "Organizes exported Kindle highlights (My Clippings.txt) into themed, deduplicated notes."
-author: "Diego Ramirez"
+author: "Curated"
 verified: false
 ---
 

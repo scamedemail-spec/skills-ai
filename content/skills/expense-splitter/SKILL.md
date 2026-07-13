@@ -1,7 +1,7 @@
 ---
 name: "Expense Splitter"
 description: "Splits shared trip or household expenses fairly among a group and calculates who owes whom."
-author: "Felix Grant"
+author: "Curated"
 verified: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: "Budget Analyzer"
 description: "Analyzes a month of transactions to find spending categories, trends, and one actionable cut."
-author: "Ingrid Solberg"
+author: "Curated"
 verified: false
 ---
 
