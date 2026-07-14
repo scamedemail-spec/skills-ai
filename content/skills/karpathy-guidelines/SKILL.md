@@ -1,6 +1,6 @@
 ---
 name: "Karpathy Guidelines"
-description: "Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria."
+description: "Based on Andrej Karpathy's widely-shared observations on LLM coding failures. Four principles that push back on wrong assumptions, bloated abstractions, and unrelated side-effect edits — with verifiable success criteria for every task."
 author: "Curated"
 verified: true
 pinned: true
@@ -8,7 +8,10 @@ pinned: true
 
 # Karpathy Guidelines
 
-Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+> "They really like to overcomplicate code and APIs, bloat abstractions, don't clean up dead code... implement a bloated construction over 1000 lines when 100 would do."
+> — [Andrej Karpathy](https://x.com/karpathy/status/2015883857489522876)
+
+Four behavioral principles derived directly from that post — wrong assumptions run silently, bloated abstractions nobody asked for, and edits that touch code they don't understand as side effects. Each principle below pushes back on one of those failure modes.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
