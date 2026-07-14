@@ -14,6 +14,8 @@ export interface SkillSummary {
   author: string;
   verified: boolean;
   sizeKb: number;
+  /** Pinned skills sort before all others in the default (non-search) library view. */
+  pinned: boolean;
 }
 
 export interface SkillManifestEntry extends SkillSummary {

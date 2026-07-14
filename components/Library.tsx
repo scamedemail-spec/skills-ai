@@ -63,11 +63,15 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
     [counts, bumps],
   );
 
-  // Most-downloaded first when browsing; a search query switches to Fuse's
-  // relevance order instead, since that's more useful once you're looking
-  // for something specific.
+  // Pinned skills always lead; after that, most-downloaded first when
+  // browsing. A search query switches to Fuse's relevance order instead,
+  // since that's more useful once you're looking for something specific.
   const byPopularity = useMemo(
-    () => [...skills].sort((a, b) => countFor(b.slug) - countFor(a.slug)),
+    () =>
+      [...skills].sort((a, b) => {
+        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+        return countFor(b.slug) - countFor(a.slug);
+      }),
     [skills, countFor],
   );
 

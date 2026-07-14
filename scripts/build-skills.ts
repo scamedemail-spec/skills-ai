@@ -90,6 +90,7 @@ interface FrontmatterResult {
   description: string;
   author: string;
   verified: boolean;
+  pinned: boolean;
   warnings: string[];
 }
 
@@ -100,6 +101,7 @@ function parseFrontmatter(slug: string, skillMdPath: string): FrontmatterResult 
     description: 'No description',
     author: 'Curated',
     verified: false,
+    pinned: false,
   };
 
   if (!existsSync(skillMdPath)) {
@@ -131,7 +133,10 @@ function parseFrontmatter(slug: string, skillMdPath: string): FrontmatterResult 
   const verified = typeof data.verified === 'boolean' ? data.verified : defaults.verified;
   if (typeof data.verified !== 'boolean') warnings.push('missing/invalid "verified"');
 
-  return { name, description, author, verified, warnings };
+  // Optional — most skills omit it, so no warning when absent.
+  const pinned = data.pinned === true;
+
+  return { name, description, author, verified, pinned, warnings };
 }
 
 function main() {
@@ -157,7 +162,7 @@ function main() {
   for (const slug of slugs) {
     const folderAbs = path.join(CONTENT_DIR, slug);
     try {
-      const { name, description, author, verified, warnings } = parseFrontmatter(
+      const { name, description, author, verified, pinned, warnings } = parseFrontmatter(
         slug,
         path.join(folderAbs, 'SKILL.md'),
       );
@@ -167,7 +172,7 @@ function main() {
       const fileTree = buildFileTree(folderAbs);
       const sizeKb = Math.max(1, Math.round(zipBytes / 1024));
 
-      const summary: SkillSummary = { slug, name, description, author, verified, sizeKb };
+      const summary: SkillSummary = { slug, name, description, author, verified, sizeKb, pinned };
       index.push(summary);
       manifest.push({ ...summary, fileTree });
     } catch (err) {
