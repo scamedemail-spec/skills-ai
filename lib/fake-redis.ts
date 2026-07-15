@@ -57,6 +57,9 @@ class FakePipeline {
   ltrim(k: string, start: number, stop: number) {
     return this.q(() => this.db.ltrim(k, start, stop));
   }
+  lrem(k: string, count: number, value: unknown) {
+    return this.q(() => this.db.lrem(k, count, value));
+  }
 
   async exec() {
     const results: unknown[] = [];
@@ -140,6 +143,29 @@ export class FakeRedis {
   async lrange<T = unknown>(key: string, start: number, stop: number): Promise<T[]> {
     const arr = (this.lists.get(key) ?? []) as T[];
     return sliceRange(arr, start, stop);
+  }
+
+  async lrem(key: string, count: number, value: unknown): Promise<number> {
+    const arr = this.lists.get(key) ?? [];
+    const eq = (el: unknown) => el === value || JSON.stringify(el) === JSON.stringify(value);
+    let removed = 0;
+    if (count === 0) {
+      const kept = arr.filter((el) => (eq(el) ? ((removed += 1), false) : true));
+      this.lists.set(key, kept);
+      return removed;
+    }
+    const src = count > 0 ? arr : [...arr].reverse();
+    const limit = Math.abs(count);
+    const kept: unknown[] = [];
+    for (const el of src) {
+      if (removed < limit && eq(el)) {
+        removed += 1;
+        continue;
+      }
+      kept.push(el);
+    }
+    this.lists.set(key, count > 0 ? kept : kept.reverse());
+    return removed;
   }
 
   async sadd(key: string, ...members: string[]): Promise<number> {

@@ -14,12 +14,17 @@ export function middleware(req: NextRequest) {
 
   const auth = req.headers.get('authorization');
   if (auth?.startsWith('Basic ')) {
-    const decoded = atob(auth.slice('Basic '.length));
-    const separatorIndex = decoded.indexOf(':');
-    const suppliedUser = decoded.slice(0, separatorIndex);
-    const suppliedPass = decoded.slice(separatorIndex + 1);
-    if (suppliedUser === user && suppliedPass === pass) {
-      return NextResponse.next();
+    try {
+      const decoded = atob(auth.slice('Basic '.length));
+      const separatorIndex = decoded.indexOf(':');
+      const suppliedUser = decoded.slice(0, separatorIndex);
+      const suppliedPass = decoded.slice(separatorIndex + 1);
+      // Constant-time compare so response timing can't leak the credentials.
+      if (safeEqual(suppliedUser, user) && safeEqual(suppliedPass, pass)) {
+        return NextResponse.next();
+      }
+    } catch {
+      /* malformed base64 — fall through to 401 */
     }
   }
 
@@ -27,6 +32,15 @@ export function middleware(req: NextRequest) {
     status: 401,
     headers: { 'WWW-Authenticate': 'Basic realm="skills.ai admin"' },
   });
+}
+
+/** Length-independent constant-time string comparison. */
+function safeEqual(a: string, b: string): boolean {
+  let mismatch = a.length ^ b.length;
+  for (let i = 0; i < a.length; i++) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i % b.length);
+  }
+  return mismatch === 0;
 }
 
 export const config = {

@@ -68,9 +68,12 @@ export function isBotUserAgent(ua: string | null): boolean {
   return !!ua && BOT_UA_PATTERN.test(ua);
 }
 
-/** First IP in x-forwarded-for, or 'unknown' when absent (e.g. local dev). */
+/** Real client IP: last entry of x-forwarded-for is the one Vercel's edge appends and controls; earlier entries are client-supplied and spoofable. */
 export function ipFromHeaders(headers: Headers): string {
   const xff = headers.get('x-forwarded-for');
-  if (xff) return xff.split(',')[0].trim();
+  if (xff) {
+    const parts = xff.split(',').map((p) => p.trim()).filter(Boolean);
+    if (parts.length) return parts[parts.length - 1];
+  }
   return headers.get('x-real-ip') ?? 'unknown';
 }

@@ -56,14 +56,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Remove only the matching entries with LREM instead of deleting the whole
+  // list and rewriting it — a concurrent signup/delete could otherwise be lost
+  // in the gap between del and lpush.
   const entries = await redis.lrange<string>('waitlist:entries', 0, -1);
-  const keptEntries = entries.filter((entry) => entryPhone(entry) !== phone);
+  const toRemove = entries.filter((entry) => entryPhone(entry) === phone);
 
   const pipeline = redis.pipeline();
   pipeline.srem('waitlist:phones', phone);
-  pipeline.del('waitlist:entries');
-  if (keptEntries.length > 0) {
-    pipeline.lpush('waitlist:entries', ...keptEntries.slice().reverse());
+  for (const entry of toRemove) {
+    pipeline.lrem('waitlist:entries', 0, entry); // 0 = every exact-value match
   }
   await pipeline.exec();
 
