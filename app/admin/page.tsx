@@ -55,6 +55,12 @@ export default async function AdminPage() {
       <p className="mt-2 text-sm text-ink-muted">
         {entries.length} {entries.length === 1 ? 'person' : 'people'} on the list.
       </p>
+      <p className="mt-3 text-sm">
+        <a href="/admin/export" className="text-accent underline underline-offset-2 hover:text-accent-hover">
+          Download full backup (JSON)
+        </a>
+        <span className="ml-2 text-ink-faint">— off-Redis snapshot of all data. Save it somewhere safe periodically.</span>
+      </p>
 
       {entries.length > 0 ? (
         <table className="mt-8 w-full border-collapse text-sm">

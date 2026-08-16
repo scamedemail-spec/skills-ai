@@ -194,6 +194,19 @@ export class FakeRedis {
     return this.sets.get(key)?.has(member) ? 1 : 0;
   }
 
+  async smembers(key: string): Promise<string[]> {
+    return [...(this.sets.get(key) ?? new Set<string>())];
+  }
+
+  /** Mirrors Redis TYPE; used by the admin backup export to dump every key. */
+  async type(key: string): Promise<string> {
+    if (this.kv.has(key)) return 'string';
+    if (this.lists.has(key)) return 'list';
+    if (this.sets.has(key)) return 'set';
+    if (this.hashes.has(key)) return 'hash';
+    return 'none';
+  }
+
   async hset(key: string, obj: Record<string, unknown>): Promise<number> {
     const h = this.hashes.get(key) ?? new Map<string, unknown>();
     let added = 0;
