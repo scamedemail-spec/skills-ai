@@ -110,16 +110,13 @@ export default function PreviewModal({
             <h2 className="text-[17px] font-medium text-ink sm:truncate">{skill.name}</h2>
             {skill.verified && (
               <span
-                className="ml-1.5 shrink-0 self-center text-success"
+                className="ml-1.5 flex shrink-0 items-center gap-1 self-center text-xs text-success"
                 title="Verified by a human"
               >
                 <VerifiedIcon />
-                <span className="sr-only">Verified</span>
+                Verified
               </span>
             )}
-            <span className="ml-2 hidden shrink-0 text-xs text-ink-faint sm:inline">
-              by {skill.author}
-            </span>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <span className="mr-1 hidden items-center gap-1 text-[13px] text-ink-muted tabular-nums sm:flex">

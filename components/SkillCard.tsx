@@ -57,12 +57,14 @@ export default function SkillCard({
       <div className="flex items-baseline">
         <h3 className="truncate text-[16px] font-medium text-ink">{skill.name}</h3>
         {skill.verified && (
-          <span className="ml-1.5 shrink-0 self-center text-success" title="Verified by a human">
+          <span
+            className="ml-1.5 flex shrink-0 items-center gap-1 self-center text-xs text-success"
+            title="Verified by a human"
+          >
             <VerifiedIcon />
-            <span className="sr-only">Verified</span>
+            Verified
           </span>
         )}
-        <span className="ml-2 shrink-0 text-xs text-ink-faint">by {skill.author}</span>
       </div>
 
       <p className="mt-2 line-clamp-2 text-sm leading-normal text-ink-muted">

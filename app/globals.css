@@ -129,7 +129,6 @@ body {
 
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 0 0 3px var(--accent-faint);
 }
 
 .btn-ghost {
