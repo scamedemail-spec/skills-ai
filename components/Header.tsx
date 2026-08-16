@@ -3,7 +3,7 @@ import { InstagramIcon } from './icons';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 h-14 border-b border-line bg-bg-sidebar">
+    <header className="glass sticky top-0 z-40 h-14 border-b">
       <div className="mx-auto flex h-full max-w-[1100px] items-center justify-between px-6">
         <Link
           href="/"

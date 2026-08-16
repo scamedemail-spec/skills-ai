@@ -128,7 +128,7 @@ export default function Library({ skills }: { skills: SkillSummary[] }) {
   return (
     <section id="library" className="scroll-mt-14 px-6 pb-12 md:pb-20">
       <div className="mx-auto max-w-[1100px]">
-        <div className="sticky top-14 z-30 -mx-1 bg-bg px-1 py-3">
+        <div className="sticky top-14 z-30 -mx-1 bg-[rgba(38,37,36,0.72)] px-1 py-3 backdrop-blur-xl">
           <div className="relative">
             <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
             <input

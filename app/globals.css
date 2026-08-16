@@ -16,6 +16,17 @@
   --accent-hover: #d97757;
   --accent-faint: rgba(193, 95, 60, 0.12);
   --success: #7cb342;
+
+  /* Liquid Glass — the translucent "functional layer" (nav, search, toolbars,
+     hero pill). Content cards deliberately stay solid; glass is reserved for
+     controls/navigation that float above content. */
+  --glass-bg: rgba(41, 40, 38, 0.68);
+  --glass-bg-hover: rgba(56, 55, 51, 0.76);
+  --glass-strong: rgba(28, 27, 26, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-highlight: rgba(255, 255, 255, 0.06);
+  --glass-blur: 22px;
+  --glass-saturate: 1.6;
 }
 
 html {
@@ -42,6 +53,51 @@ body {
   outline-offset: 2px;
 }
 
+/* ---------- Liquid Glass ---------- */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-color: var(--glass-border);
+  /* thin top highlight sells the "polished pane of glass" read */
+  box-shadow: inset 0 1px 0 0 var(--glass-highlight);
+}
+
+/* Heavier variant for larger surfaces (modal chrome) where legibility over
+   busy content matters more than translucency. */
+.glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(28px) saturate(var(--glass-saturate));
+  border-color: var(--glass-border);
+  box-shadow: inset 0 1px 0 0 var(--glass-highlight);
+}
+
+/* Hover-brighten (not zoom): a subtle luminosity lift on pointer hover. */
+.glass-interactive {
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.glass-interactive:hover {
+  background: var(--glass-bg-hover);
+}
+
+/* Respect users who reduce transparency — fall back to solid surfaces. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-interactive {
+    background: var(--bg-sidebar);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass-strong {
+    background: var(--bg-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
 /* ---------- Buttons ---------- */
 
 .btn {
@@ -49,15 +105,21 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border-radius: 6px;
-  padding: 8px 14px;
+  border-radius: 9px;
+  padding: 8px 15px;
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease,
-    box-shadow 150ms ease;
+    box-shadow 150ms ease, transform 120ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Tactile press — a quick scale-down on click, the iOS "button responds to
+   your finger" feel. Brighten on hover, press on click, never zoom. */
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn-primary {
@@ -74,7 +136,7 @@ body {
   background: transparent;
   border: 1px solid var(--accent);
   color: var(--accent);
-  padding: 7px 13px; /* compensate 1px border so both buttons match height */
+  padding: 7px 14px; /* compensate 1px border so both buttons match height */
 }
 
 .btn-ghost:hover {
@@ -87,9 +149,10 @@ body {
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--text-muted);
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color 150ms ease, color 150ms ease,
+    transform 120ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 .btn-icon:hover {
@@ -97,18 +160,33 @@ body {
   color: var(--text);
 }
 
+.btn-icon:active {
+  transform: scale(0.92);
+}
+
 /* ---------- Search input ---------- */
 
 .search-input {
   height: 48px;
   width: 100%;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: inset 0 1px 0 0 var(--glass-highlight);
   padding: 0 64px 0 42px;
   font-size: 15px;
   color: var(--text);
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .search-input {
+    background: var(--bg-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 .search-input::placeholder {

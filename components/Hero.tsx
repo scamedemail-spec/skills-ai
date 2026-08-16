@@ -35,7 +35,7 @@ export default function Hero() {
           A curated library of Claude skills. Verified by a human. One click to
           install.
         </p>
-        <div className="mt-12">
+        <div className="glass mt-12 rounded-[22px] border px-10 py-6">
           <div className="font-serif text-[56px] leading-none text-accent tabular-nums">
             {(total ?? 0).toLocaleString('en-US')}
           </div>

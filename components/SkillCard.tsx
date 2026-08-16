@@ -52,7 +52,7 @@ export default function SkillCard({
           onOpen();
         }
       }}
-      className="cursor-pointer rounded-lg border border-line bg-bg-card p-5 transition-colors duration-150 hover:bg-bg-card-hover"
+      className="cursor-pointer rounded-[14px] border border-line bg-bg-card p-5 transition-[background-color,border-color,transform] duration-150 hover:border-line-strong hover:bg-bg-card-hover active:scale-[0.99]"
     >
       <div className="flex items-baseline">
         <h3 className="truncate text-[16px] font-medium text-ink">{skill.name}</h3>

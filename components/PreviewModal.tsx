@@ -96,16 +96,16 @@ export default function PreviewModal({
       aria-label={`${skill.name} preview`}
     >
       <div
-        className="animate-fade-in absolute inset-0 bg-black/60"
+        className="animate-fade-in absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="animate-fade-in relative flex h-[80vh] w-full max-w-[1200px] flex-col overflow-hidden rounded-xl border border-line bg-bg-card outline-none md:w-[80vw]"
+        className="animate-fade-in relative flex h-[80vh] w-full max-w-[1200px] flex-col overflow-hidden rounded-[18px] border border-line bg-bg-card outline-none md:w-[80vw]"
       >
-        <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-line bg-bg-sidebar p-4">
+        <header className="glass flex shrink-0 flex-wrap items-center justify-between gap-3 border-b p-4">
           <div className="flex min-w-0 items-baseline sm:flex-1">
             <h2 className="text-[17px] font-medium text-ink sm:truncate">{skill.name}</h2>
             {skill.verified && (
@@ -148,7 +148,7 @@ export default function PreviewModal({
         </header>
 
         {/* View tabs */}
-        <div className="flex shrink-0 gap-1 border-b border-line bg-bg-sidebar px-4">
+        <div className="glass flex shrink-0 gap-1 border-b px-4">
           <TabButton active={view === 'preview'} onClick={() => setView('preview')}>
             Files
           </TabButton>
