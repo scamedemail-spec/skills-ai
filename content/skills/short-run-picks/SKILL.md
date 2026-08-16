@@ -3,6 +3,7 @@ name: "Short-Run Picks"
 description: "Scans 200+ live sources across 12 source families — options flow, SEC filings (8-K/Form 4/13D), analyst revisions, insider transactions, Reddit/HN, and X via Grok — then ranks 1-3 month tactical setups across 9 explicit, weighted subcategories. Every pick ships with quantitative and qualitative evidence, a stated bear case, and a specific invalidation trigger, with sources numbered by phase — an output built to act on, not just read. Trigger with '/research short run stock picks', 'short run picks', 'tactical stock ideas', 'catalyst plays', 'what's setting up this month'. NOT investment advice."
 author: "Curated"
 verified: true
+disclaimer: financial
 ---
 
 # Short-Run Picks — 1 to 3 Month Tactical Stock Research

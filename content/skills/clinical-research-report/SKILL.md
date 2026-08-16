@@ -3,6 +3,7 @@ name: "Clinical Research Report"
 description: Deep multi-source clinical literature research on lab results and symptoms, built to handle 5-10 lab report PDFs at once. Unit-normalizes every result, screens for critical values and symptom red flags, runs a 10+ source literature review on every unique analyte and symptom, computes statistically-defensible trends across panels, and assembles a cited clinical report. Use whenever the user uploads bloodwork, lab panels, metabolic/lipid/CBC/thyroid/hormone results, or any test-result PDF and wants to know what it means; asks what could cause a symptom; wants a differential on a value; wants to compare panels over time; or wants literature-backed treatment approaches with dosing. Also trigger for follow-up questions about a report already built in this conversation, and when adding a new panel to an existing analysis. Trigger even if the user just uploads files or pastes numbers without asking for a "report" by name. Produces a research document for review with a licensed clinician, not a diagnosis.
 author: "Curated"
 verified: true
+disclaimer: medical
 ---
 
 # Clinical Research Report

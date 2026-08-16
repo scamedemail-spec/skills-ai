@@ -11,6 +11,17 @@ import { CloseIcon, DownloadArrowIcon, VerifiedIcon } from './icons';
 
 type ModalView = 'preview' | 'reviews';
 
+// "Verified" means a human curated/checked the skill itself — NOT that its
+// generated output is correct. These disclaimers make that boundary explicit
+// for advice-adjacent skills so the badge can't be read as an endorsement of
+// medical or financial output.
+const DISCLAIMER_TEXT: Record<'medical' | 'financial', string> = {
+  medical:
+    'Not medical advice. This skill’s output — including any dosing — is for informational use only and must be reviewed with a licensed clinician. skills.ai does not verify the accuracy or safety of its output.',
+  financial:
+    'Not investment advice. This skill’s output is for informational use only and is not a recommendation to buy or sell any security. Do your own research and consult a licensed professional. skills.ai does not verify the accuracy of its output.',
+};
+
 interface PreviewModalProps {
   skill: SkillSummary;
   /** Full manifest entry with file tree; null while the manifest is loading. */
@@ -143,6 +154,13 @@ export default function PreviewModal({
             </button>
           </div>
         </header>
+
+        {skill.disclaimer && (
+          <div className="shrink-0 border-b border-line bg-[rgba(193,95,60,0.09)] px-4 py-2 text-[12px] leading-snug text-ink-muted">
+            <strong className="font-medium text-ink">Disclaimer:</strong>{' '}
+            {DISCLAIMER_TEXT[skill.disclaimer]}
+          </div>
+        )}
 
         {/* View tabs */}
         <div className="glass flex shrink-0 gap-1 border-b px-4">

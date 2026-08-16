@@ -3,6 +3,7 @@ name: "Stock Positioning"
 description: "Scans 200+ sources across 13 source families — SEC filings, earnings transcripts, 13F databases, quality-fund newsletters, TAM analyst reports, deep-dive podcasts, and more — then scores every candidate across 10 explicit, weighted subcategories (moat, unit economics, management, valuation, and more) for a 1-2 year horizon. The output is a ranked brief with quantitative evidence behind every line, a stated bear case, and a numbered source list by phase — built to be checked, not just read. Trigger with '/positioning research for stocks', 'positioning research', 'stock positioning', 'compounder analysis', 'moat analysis on [ticker]'. NOT investment advice."
 author: "Curated"
 verified: true
+disclaimer: financial
 ---
 
 # Stock Positioning — 1 to 2 Year Business-Quality Research

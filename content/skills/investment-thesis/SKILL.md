@@ -3,6 +3,7 @@ name: "Investment Thesis"
 description: "Structures a company or stock investment thesis with bull case, bear case, and key risks."
 author: "Curated"
 verified: true
+disclaimer: financial
 ---
 
 # Investment Thesis

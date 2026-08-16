@@ -91,6 +91,7 @@ interface FrontmatterResult {
   author: string;
   verified: boolean;
   pinned: boolean;
+  disclaimer?: 'medical' | 'financial';
   warnings: string[];
 }
 
@@ -135,8 +136,10 @@ function parseFrontmatter(slug: string, skillMdPath: string): FrontmatterResult 
 
   // Optional — most skills omit it, so no warning when absent.
   const pinned = data.pinned === true;
+  const disclaimer =
+    data.disclaimer === 'medical' || data.disclaimer === 'financial' ? data.disclaimer : undefined;
 
-  return { name, description, author, verified, pinned, warnings };
+  return { name, description, author, verified, pinned, disclaimer, warnings };
 }
 
 function main() {
@@ -162,7 +165,7 @@ function main() {
   for (const slug of slugs) {
     const folderAbs = path.join(CONTENT_DIR, slug);
     try {
-      const { name, description, author, verified, pinned, warnings } = parseFrontmatter(
+      const { name, description, author, verified, pinned, disclaimer, warnings } = parseFrontmatter(
         slug,
         path.join(folderAbs, 'SKILL.md'),
       );
@@ -173,6 +176,7 @@ function main() {
       const sizeKb = Math.max(1, Math.round(zipBytes / 1024));
 
       const summary: SkillSummary = { slug, name, description, author, verified, sizeKb, pinned };
+      if (disclaimer) summary.disclaimer = disclaimer;
       index.push(summary);
       manifest.push({ ...summary, fileTree });
     } catch (err) {

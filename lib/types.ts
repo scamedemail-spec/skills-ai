@@ -16,6 +16,8 @@ export interface SkillSummary {
   sizeKb: number;
   /** Pinned skills sort before all others in the default (non-search) library view. */
   pinned: boolean;
+  /** Shows a liability disclaimer banner in the preview for advice-adjacent skills. */
+  disclaimer?: 'medical' | 'financial';
 }
 
 export interface SkillManifestEntry extends SkillSummary {
